@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 
+
 private extension Selector {
     static let buttonTapped = #selector(DatePickerDialog.buttonTapped)
     static let deviceOrientationDidChange = #selector(DatePickerDialog.deviceOrientationDidChange)
@@ -89,20 +90,26 @@ open class DatePickerDialog: UIView {
                    datePickerMode: UIDatePickerMode = .dateAndTime,
                    callback: @escaping DatePickerCallback) {
         self.titleLabel.text = title
+        self.titleLabel.textColor = #colorLiteral(red: 0, green: 0.5490196078, blue: 0.4352941176, alpha: 1)
         self.doneButton.setTitle(doneButtonTitle, for: .normal)
+        self.doneButton.setTitleColor(#colorLiteral(red: 0, green: 0.5490196078, blue: 0.4352941176, alpha: 1), for: .normal)
         if showCancelButton {
             self.cancelButton.setTitle(cancelButtonTitle, for: .normal)
+            self.cancelButton.setTitleColor(#colorLiteral(red: 0, green: 0.5490196078, blue: 0.4352941176, alpha: 1), for: .normal)
         }
         self.datePickerMode = datePickerMode
         self.callback = callback
         self.defaultDate = defaultDate
         self.datePicker.datePickerMode = self.datePickerMode ?? UIDatePickerMode.date
+        self.datePicker.tintColor = #colorLiteral(red: 0, green: 0.5490196078, blue: 0.4352941176, alpha: 1)
+        self.datePicker.setValue(#colorLiteral(red: 0, green: 0.5490196078, blue: 0.4352941176, alpha: 1), forKeyPath: "textColor")
         self.datePicker.date = self.defaultDate ?? Date()
         self.datePicker.maximumDate = maximumDate
         self.datePicker.minimumDate = minimumDate
-        if let locale = self.locale {
+       /* if let locale = self.locale {
             self.datePicker.locale = locale
-        }
+        }*/
+         self.datePicker.locale = Locale.init(identifier: "ar")
         /* Add dialog to main window */
         guard let appDelegate = UIApplication.shared.delegate else { fatalError() }
         guard let window = appDelegate.window else { fatalError() }
@@ -218,6 +225,7 @@ open class DatePickerDialog: UIView {
 
     fileprivate func configuredDatePicker() -> UIDatePicker {
         let datePicker = UIDatePicker(frame: CGRect(x: 0, y: 30, width: 0, height: 0))
+        datePicker.calendar = Calendar.init(identifier: Calendar.Identifier.islamicCivil)
         datePicker.setValue(self.textColor, forKeyPath: "textColor")
         datePicker.autoresizingMask = .flexibleRightMargin
         datePicker.frame.size.width = 300
